@@ -1,0 +1,7 @@
+[workspace]
+members = ["cli", "core"]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Drake Taylor"]
+edition = "2024"

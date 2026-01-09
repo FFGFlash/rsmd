@@ -1,0 +1,11 @@
+[package]
+name = "rsdm-parser"
+description = "Markdown parser library for rsdm"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[lib]
+name = "rsdm_parser"
+
+[dependencies]
