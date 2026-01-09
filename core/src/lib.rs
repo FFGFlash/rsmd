@@ -135,6 +135,7 @@ impl MarkdownParser {
           EmitSource::Parser,
         );
       } else {
+        //? I think we only get to this case if a rule fails to parse
         i += 1;
       }
     }
