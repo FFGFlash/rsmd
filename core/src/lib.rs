@@ -155,34 +155,27 @@ impl MarkdownParser {
     let chars: Vec<char> = input.chars().collect();
     let mut i = 0;
 
-    'outer: while i < chars.len() {
+    'main: while i < chars.len() {
       for rule in &self.inline_rules {
         if rule.matches(&chars, i) {
           if let Some((inline, new_index)) = rule.parse(&chars, i, self) {
             self.emit_inline(&mut result, inline, EmitSource::InlineRule(rule.as_ref()));
             i = new_index;
-            continue 'outer;
+            continue 'main;
           }
         }
       }
 
-      let mut text_chars = Vec::new();
-      'inner: while i < chars.len() {
-        for rule in &self.inline_rules {
-          if rule.matches(&chars, i) {
-            break 'inner;
-          }
-        }
-        text_chars.push(chars[i]);
-        i += 1;
-      }
-      if !text_chars.is_empty() {
+      if let Some(Inline::Text(text)) = result.last_mut() {
+        text.push(chars[i]);
+      } else {
         self.emit_inline(
           &mut result,
-          Inline::Text(text_chars.iter().collect()),
+          Inline::Text(chars[i].to_string()),
           EmitSource::Parser,
         );
       }
+      i += 1;
     }
 
     InlineList(result)
