@@ -134,6 +134,8 @@ impl MarkdownParser {
           Block::Paragraph(self.parse_inline(&text)),
           EmitSource::Parser,
         );
+      } else {
+        i += 1;
       }
     }
 
